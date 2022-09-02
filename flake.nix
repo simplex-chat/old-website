@@ -25,7 +25,7 @@
         };
         sha256map = import ./scripts/nix/sha256map.nix;
         modules = [{
-          packages.direct-sqlite.patches = [ ./scripts/nix/direct-sqlite-2.3.26.patch ];
+          packages.direct-sqlcipher.patches = [ ./scripts/nix/direct-sqlcipher-2.3.27.patch ];
         }
         ({ pkgs,lib, ... }: lib.mkIf (pkgs.stdenv.hostPlatform.isAndroid) {
           packages.simplex-chat.components.library.ghcOptions = [ "-pie" ];
@@ -88,7 +88,12 @@
                         > $out/nix-support/hydra-build-products
                 '';
               };
-              "aarch64-android:lib:simplex-chat" = (drv androidPkgs).simplex-chat.components.library.override {
+              "aarch64-android:lib:simplex-chat" = (drv' {
+                pkgs' = androidPkgs;
+                extra-modules = [{
+                  packages.direct-sqlcipher.flags.openssl = true;
+                }];
+              }).simplex-chat.components.library.override {
                 smallAddressSpace = true; enableShared = false;
                 # for android we build a shared library, passing these arguments is a bit tricky, as
                 # we want only the threaded rts (HSrts_thr) and ffi to be linked, but not fed into iserv for
@@ -135,7 +140,12 @@
                         > $out/nix-support/hydra-build-products
                 '';
               };
-              "x86_64-android:lib:simplex-chat" = (drv androidPkgs).simplex-chat.components.library.override {
+              "x86_64-android:lib:simplex-chat" = (drv' {
+                pkgs' = androidPkgs;
+                extra-modules = [{
+                  packages.direct-sqlcipher.flags.openssl = true;
+                }];
+              }).simplex-chat.components.library.override {
                 smallAddressSpace = true; enableShared = false;
                 # for android we build a shared library, passing these arguments is a bit tricky, as
                 # we want only the threaded rts (HSrts_thr) and ffi to be linked, but not fed into iserv for
@@ -182,7 +192,12 @@
                         > $out/nix-support/hydra-build-products
                 '';
               };
-              "x86_64-linux:lib:simplex-chat" = (drv androidPkgs).simplex-chat.components.library.override {
+              "x86_64-linux:lib:simplex-chat" = (drv' {
+                pkgs' = androidPkgs;
+                extra-modules = [{
+                  packages.direct-sqlcipher.flags.openssl = true;
+                }];
+              }).simplex-chat.components.library.override {
                 smallAddressSpace = true; enableShared = false;
                 # for android we build a shared library, passing these arguments is a bit tricky, as
                 # we want only the threaded rts (HSrts_thr) and ffi to be linked, but not fed into iserv for
