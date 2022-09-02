@@ -88,7 +88,7 @@
                         > $out/nix-support/hydra-build-products
                 '';
               };
-              "aarch64-android:lib:simplex-chat" = (drv' {
+              "aarch64-android:lib:simplex-chat" = (drv {
                 pkgs' = androidPkgs;
                 extra-modules = [{
                   packages.direct-sqlcipher.flags.openssl = true;
@@ -140,7 +140,7 @@
                         > $out/nix-support/hydra-build-products
                 '';
               };
-              "x86_64-android:lib:simplex-chat" = (drv' {
+              "x86_64-android:lib:simplex-chat" = (drv {
                 pkgs' = androidPkgs;
                 extra-modules = [{
                   packages.direct-sqlcipher.flags.openssl = true;
@@ -192,7 +192,7 @@
                         > $out/nix-support/hydra-build-products
                 '';
               };
-              "x86_64-linux:lib:simplex-chat" = (drv' {
+              "x86_64-linux:lib:simplex-chat" = (drv {
                 pkgs' = androidPkgs;
                 extra-modules = [{
                   packages.direct-sqlcipher.flags.openssl = true;
