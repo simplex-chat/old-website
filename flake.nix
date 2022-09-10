@@ -28,6 +28,7 @@
           packages.direct-sqlcipher.patches = [
             ./scripts/nix/direct-sqlcipher-2.3.27.patch
             ./scripts/nix/direct-sqlcipher-android.patch
+            ./scripts/nix/direct-sqlcipher-err-string.patch
           ];
         }
         ({ pkgs,lib, ... }: lib.mkIf (pkgs.stdenv.hostPlatform.isAndroid) {
