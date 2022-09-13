@@ -125,7 +125,6 @@
                     (androidPkgs.openssl.override { static = true; })
                   ];
                   packages.direct-sqlcipher.patches = [
-                    ./scripts/nix/direct-sqlcipher-2.3.27.patch
                     ./scripts/nix/direct-sqlcipher-android-log.patch
                   ];
                 }];
