@@ -25,10 +25,7 @@
         };
         sha256map = import ./scripts/nix/sha256map.nix;
         modules = [{
-          packages.direct-sqlcipher.patches = [
-            ./scripts/nix/direct-sqlcipher-2.3.27.patch
-            ./scripts/nix/direct-sqlcipher-android.patch
-          ];
+          packages.direct-sqlcipher.patches = [ ./scripts/nix/direct-sqlcipher-2.3.27.patch ];
         }
         ({ pkgs,lib, ... }: lib.mkIf (pkgs.stdenv.hostPlatform.isAndroid) {
           packages.simplex-chat.components.library.ghcOptions = [ "-pie" ];
@@ -124,6 +121,13 @@
                 pkgs' = androidPkgs;
                 extra-modules = [{
                   packages.direct-sqlcipher.flags.openssl = true;
+                  packages.direct-sqlcipher.components.library.libs = pkgs.lib.mkForce [
+                    (androidPkgs.openssl.override { static = true; })
+                  ];
+                  packages.direct-sqlcipher.patches = [
+                    ./scripts/nix/direct-sqlcipher-2.3.27.patch
+                    ./scripts/nix/direct-sqlcipher-android-log.patch
+                  ];
                 }];
               }).simplex-chat.components.library.override {
                 smallAddressSpace = true; enableShared = false;
